@@ -121,6 +121,14 @@ export type DeleteServiceMutationVariables = Exact<{
 
 export type DeleteServiceMutation = { __typename?: 'Mutation', deleteService?: { __typename?: 'DeleteServicePayload', id: string } | null };
 
+export type UpdateServiceMutationVariables = Exact<{
+  id: Scalars['ID'];
+  params: ServiceAttributes;
+}>;
+
+
+export type UpdateServiceMutation = { __typename?: 'Mutation', updateService?: { __typename?: 'UpdateServicePayload', service: { __typename?: 'Service', id: string, title?: string | null } } | null };
+
 export type ServicesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -196,6 +204,43 @@ export function useDeleteServiceMutation(baseOptions?: Apollo.MutationHookOption
 export type DeleteServiceMutationHookResult = ReturnType<typeof useDeleteServiceMutation>;
 export type DeleteServiceMutationResult = Apollo.MutationResult<DeleteServiceMutation>;
 export type DeleteServiceMutationOptions = Apollo.BaseMutationOptions<DeleteServiceMutation, DeleteServiceMutationVariables>;
+export const UpdateServiceDocument = gql`
+    mutation updateService($id: ID!, $params: ServiceAttributes!) {
+  updateService(input: {id: $id, params: $params}) {
+    service {
+      id
+      title
+    }
+  }
+}
+    `;
+export type UpdateServiceMutationFn = Apollo.MutationFunction<UpdateServiceMutation, UpdateServiceMutationVariables>;
+
+/**
+ * __useUpdateServiceMutation__
+ *
+ * To run a mutation, you first call `useUpdateServiceMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateServiceMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateServiceMutation, { data, loading, error }] = useUpdateServiceMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      params: // value for 'params'
+ *   },
+ * });
+ */
+export function useUpdateServiceMutation(baseOptions?: Apollo.MutationHookOptions<UpdateServiceMutation, UpdateServiceMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateServiceMutation, UpdateServiceMutationVariables>(UpdateServiceDocument, options);
+      }
+export type UpdateServiceMutationHookResult = ReturnType<typeof useUpdateServiceMutation>;
+export type UpdateServiceMutationResult = Apollo.MutationResult<UpdateServiceMutation>;
+export type UpdateServiceMutationOptions = Apollo.BaseMutationOptions<UpdateServiceMutation, UpdateServiceMutationVariables>;
 export const ServicesDocument = gql`
     query services {
   services {

@@ -1,4 +1,9 @@
-import { useServicesQuery, useCreateServiceMutation, useDeleteServiceMutation } from "./graphql/generated";
+import {
+  useServicesQuery,
+  useCreateServiceMutation,
+  useDeleteServiceMutation,
+  useUpdateServiceMutation
+} from "./graphql/generated";
 import { useState } from "react";
 
 function App() {
@@ -6,6 +11,7 @@ function App() {
   const [createService] = useCreateServiceMutation({ refetchQueries: ["services"] });
   const [title, setTitle] = useState("");
   const [deleteService] = useDeleteServiceMutation({ refetchQueries: ["services"] });
+  const [updateService] = useUpdateServiceMutation();
 
   return (
     <div>
@@ -18,7 +24,13 @@ function App() {
       >保存</button>
       {services.map((service) => (
         <div key={service.id}>
-          <div>{service.title}</div>
+          <input value={service.title || ""}
+            onChange={(e) =>
+              updateService({
+                variables: { id: service.id, params: { title: e.target.value }},
+              })
+              }
+              />
           <button onClick={() => { deleteService({ variables: { id: service.id }})}}>
             削除
           </button>
