@@ -1,25 +1,11 @@
-import { useQuery, gql } from "@apollo/client";
-
-const FETCH_SERVICES = gql`
-  query {
-    services {
-      id
-      title
-    }
-  }
-`;
-
-interface Service {
-  id: string;
-  title: string;
-}
+import { useServicesQuery } from "./graphql/generated";
 
 function App() {
-  const { data: { services } = {} } = useQuery(FETCH_SERVICES);
+  const { data: { services = [] } = {} } = useServicesQuery();
 
   return (
     <div>
-      {services.map((service: Service) => (
+      {services.map((service) => (
         <div key={service.id}>{service.title}</div>
       ))}
     </div>
