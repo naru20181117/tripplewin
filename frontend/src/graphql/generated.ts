@@ -107,12 +107,55 @@ export type UpdateServicePayload = {
   service: Service;
 };
 
+export type CreateServiceMutationVariables = Exact<{
+  params: ServiceAttributes;
+}>;
+
+
+export type CreateServiceMutation = { __typename?: 'Mutation', createService?: { __typename?: 'CreateServicePayload', service: { __typename?: 'Service', id: string, title?: string | null } } | null };
+
 export type ServicesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type ServicesQuery = { __typename?: 'Query', services: Array<{ __typename?: 'Service', id: string, title?: string | null }> };
 
 
+export const CreateServiceDocument = gql`
+    mutation createService($params: ServiceAttributes!) {
+  createService(input: {params: $params}) {
+    service {
+      id
+      title
+    }
+  }
+}
+    `;
+export type CreateServiceMutationFn = Apollo.MutationFunction<CreateServiceMutation, CreateServiceMutationVariables>;
+
+/**
+ * __useCreateServiceMutation__
+ *
+ * To run a mutation, you first call `useCreateServiceMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateServiceMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createServiceMutation, { data, loading, error }] = useCreateServiceMutation({
+ *   variables: {
+ *      params: // value for 'params'
+ *   },
+ * });
+ */
+export function useCreateServiceMutation(baseOptions?: Apollo.MutationHookOptions<CreateServiceMutation, CreateServiceMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateServiceMutation, CreateServiceMutationVariables>(CreateServiceDocument, options);
+      }
+export type CreateServiceMutationHookResult = ReturnType<typeof useCreateServiceMutation>;
+export type CreateServiceMutationResult = Apollo.MutationResult<CreateServiceMutation>;
+export type CreateServiceMutationOptions = Apollo.BaseMutationOptions<CreateServiceMutation, CreateServiceMutationVariables>;
 export const ServicesDocument = gql`
     query services {
   services {
