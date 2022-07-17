@@ -114,6 +114,13 @@ export type CreateServiceMutationVariables = Exact<{
 
 export type CreateServiceMutation = { __typename?: 'Mutation', createService?: { __typename?: 'CreateServicePayload', service: { __typename?: 'Service', id: string, title?: string | null } } | null };
 
+export type DeleteServiceMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type DeleteServiceMutation = { __typename?: 'Mutation', deleteService?: { __typename?: 'DeleteServicePayload', id: string } | null };
+
 export type ServicesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -156,6 +163,39 @@ export function useCreateServiceMutation(baseOptions?: Apollo.MutationHookOption
 export type CreateServiceMutationHookResult = ReturnType<typeof useCreateServiceMutation>;
 export type CreateServiceMutationResult = Apollo.MutationResult<CreateServiceMutation>;
 export type CreateServiceMutationOptions = Apollo.BaseMutationOptions<CreateServiceMutation, CreateServiceMutationVariables>;
+export const DeleteServiceDocument = gql`
+    mutation deleteService($id: ID!) {
+  deleteService(input: {id: $id}) {
+    id
+  }
+}
+    `;
+export type DeleteServiceMutationFn = Apollo.MutationFunction<DeleteServiceMutation, DeleteServiceMutationVariables>;
+
+/**
+ * __useDeleteServiceMutation__
+ *
+ * To run a mutation, you first call `useDeleteServiceMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteServiceMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteServiceMutation, { data, loading, error }] = useDeleteServiceMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteServiceMutation(baseOptions?: Apollo.MutationHookOptions<DeleteServiceMutation, DeleteServiceMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteServiceMutation, DeleteServiceMutationVariables>(DeleteServiceDocument, options);
+      }
+export type DeleteServiceMutationHookResult = ReturnType<typeof useDeleteServiceMutation>;
+export type DeleteServiceMutationResult = Apollo.MutationResult<DeleteServiceMutation>;
+export type DeleteServiceMutationOptions = Apollo.BaseMutationOptions<DeleteServiceMutation, DeleteServiceMutationVariables>;
 export const ServicesDocument = gql`
     query services {
   services {
