@@ -14,16 +14,21 @@ function App() {
   const [updateService] = useUpdateServiceMutation();
 
   return (
-    <div>
-      <input value={title} onChange={(e) => setTitle(e.target.value)} />
-      <button
-        onClick={() => {
-          createService({ variables: { params: { title: title }}});
-          setTitle("");
-        }}
-      >保存</button>
+    <div style={{ width: "400px", margin: "40px auto" }}>
+      <h1>サービス一覧</h1>
+      <div style={{ display: "flex", gap: "10px", marginBottom: "40px" }}>
+        <input value={title} onChange={(e) => setTitle(e.target.value)} />
+        <button
+          onClick={() => {
+            createService({ variables: { params: { title: title }}});
+            setTitle("");
+          }}
+        >保存</button>
+      </div>
       {services.map((service) => (
-        <div key={service.id}>
+        <div
+          key={service.id}
+          style={{ display: "flex", gap: "10px", marginBottom: "10px" }}>
           <input value={service.title || ""}
             onChange={(e) =>
               updateService({
